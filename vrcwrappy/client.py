@@ -5,6 +5,8 @@ from http.cookiejar import LWPCookieJar
 from io import IOBase
 
 from exceptions import NotVRChatURLException
+from authentication_api import AuthenticationApi
+## We overwrite previous import of AuthenticationApi, and thats ok!
 
 class ApiClient(_ApiClient):
     def __init__(self, configuration=None, header_name=None, header_value=None,
