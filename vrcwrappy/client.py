@@ -1,3 +1,5 @@
+from vrchatapi.apis import *
+
 from vrchatapi import Configuration, ApiClient as _ApiClient
 from http.cookiejar import LWPCookieJar
 from io import IOBase
@@ -5,6 +7,35 @@ from io import IOBase
 from exceptions import NotVRChatURLException
 
 class ApiClient(_ApiClient):
+    def __init__(self, configuration=None, header_name=None, header_value=None,
+                 cookie=None, pool_threads=1):
+        
+        super().__init__(configuration=configuration, header_name=header_name,
+                         header_value=header_value, cookie=cookie,
+                         pool_threads=pool_threads)
+        
+        # Make import/api usage flow simpler
+        # We can do this because it doesn't take much memory
+        apis = {
+            "authentication": AuthenticationApi,
+            "avatars": AvatarsApi,
+            "economy": EconomyApi,
+            "favorites": FavoritesApi,
+            "files": FilesApi,
+            "friends": FriendsApi,
+            "instances": InstancesApi,
+            "invites": InviteApi,
+            "notifications": NotificationsApi,
+            "permissions": PermissionsApi,
+            "player_moderations": PlayermoderationApi,
+            "system": SystemApi,
+            "users": UsersApi,
+            "worlds": WorldsApi
+        }
+        
+        for key, value in apis.items():
+            setattr(self, key, value(self))
+    
     def save_cookies(self, filename: str):
         """Load current sessions cookies
 
