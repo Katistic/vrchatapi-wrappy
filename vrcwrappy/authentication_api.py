@@ -7,4 +7,4 @@ class AuthenticationApi(auth_api):
     # as well as taking in a string
     def verify_2fa(self, code: str, **kwargs):
         code = TwoFactorAuthCode(code)
-        return self._verify2_fa(code, **kwargs)
+        return self.verify2_fa(two_factor_auth_code=code, **kwargs)

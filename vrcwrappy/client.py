@@ -4,8 +4,8 @@ from vrchatapi import Configuration, ApiClient as _ApiClient
 from http.cookiejar import LWPCookieJar
 from io import IOBase
 
-from exceptions import NotVRChatURLException
-from authentication_api import AuthenticationApi
+from .exceptions import NotVRChatURLException
+from .authentication_api import AuthenticationApi
 ## We overwrite previous import of AuthenticationApi, and thats ok!
 
 class ApiClient(_ApiClient):
@@ -60,7 +60,11 @@ class ApiClient(_ApiClient):
         """
         
         cookie_jar = LWPCookieJar(filename=filename)
-        cookie_jar.load()
+        try:
+            cookie_jar.load()
+        except FileNotFoundError:
+            cookie_jar.save()
+            return
         
         for cookie in cookie_jar:
             self.rest_client.cookie_jar.set_cookie(cookie)
@@ -76,7 +80,7 @@ class ApiClient(_ApiClient):
         if not url.startswith("https://cloud.vrchat.api") and "/api/1/" not in url:
             raise NotVRChatURLException(404, "URL '%s' is not a valid vrchat.api url", None)
         
-        url = url.split("/api/1")[0]
+        url = url.split("/api/1")[1]
         resp = self.call_api(url, "GET", _preload_content=True, response_type=(IOBase,))
         
         with open(filename, "wb+") as file:
