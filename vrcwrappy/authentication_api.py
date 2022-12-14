@@ -1,5 +1,5 @@
 from vrchatapi.api.authentication_api import AuthenticationApi as auth_api
-from vrchatapi.model.two_factor_auth_code import TwoFactorAuthCode
+from vrchatapi.models.two_factor_auth_code import TwoFactorAuthCode
 
 class AuthenticationApi(auth_api):
     

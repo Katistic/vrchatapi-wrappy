@@ -1,4 +1,4 @@
-from vrchatapi.apis import *
+from vrchatapi.api import *
 
 from vrchatapi import Configuration, ApiClient as _ApiClient
 from http.cookiejar import LWPCookieJar
