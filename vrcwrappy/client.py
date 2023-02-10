@@ -39,7 +39,7 @@ class ApiClient(_ApiClient):
             setattr(self, key, value(self))
     
     def save_cookies(self, filename: str):
-        """Load current sessions cookies
+        """Save current session cookies
 
         Args:
             filename (str): Path to save cookies to
@@ -53,7 +53,7 @@ class ApiClient(_ApiClient):
         cookie_jar.save()
         
     def load_cookies(self, filename: str):
-        """Load current sessions cookies
+        """Load cached session cookies from file
 
         Args:
             filename (str): Path to load cookies from
@@ -70,7 +70,7 @@ class ApiClient(_ApiClient):
             self.rest_client.cookie_jar.set_cookie(cookie)
             
     def save_file(self, url: str, filename: str):
-        """Save current sessions cookies
+        """Save file from vrchat cdn servers
 
         Args:
             url (str): URL of the file to save, must start with `https://cloud.vrchat.api`
