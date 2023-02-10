@@ -81,10 +81,10 @@ class ApiClient(_ApiClient):
             raise NotVRChatURLException(404, "URL '%s' is not a valid vrchat.api url", None)
         
         url = url.split("/api/1")[1]
-        resp = self.call_api(url, "GET", _preload_content=True, response_type=(IOBase,))
+        resp = self.call_api(url, "GET", _preload_content=False, response_types_map=(IOBase,))
         
         with open(filename, "wb+") as file:
-            file.write(resp[0].read())
+            file.write(resp.data)
             
     ## Little function for maintaining simplicity
     def set_login_credentials(self, username: str, password: str):
