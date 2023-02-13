@@ -66,7 +66,6 @@ class WebsocketHandler:
             
         self.loop.create_task(self.on_disconnect())
                     
-    # Public events
     def event(self, func):
         """
         Decorator that sets websocket event hooks
@@ -78,15 +77,7 @@ class WebsocketHandler:
         """
         
         if func.__name__ in WebsocketHandler.valid_event_list:
-            setattr(self, func.__name__, func)
+            setattr(self.client, func.__name__, func)
             return func
         
         raise InvalidEvent(func.__name__)
-    
-    async def on_connect(self):
-        """Called when connected to vrchat websocket pipeline"""
-        pass
-    
-    async def on_disconnect(self):
-        """Called whem disconnected from vrchat websocket pipeline"""
-        pass

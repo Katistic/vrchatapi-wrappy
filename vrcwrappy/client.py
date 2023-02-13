@@ -6,6 +6,8 @@ from io import IOBase
 
 from .exceptions import NotVRChatURLException
 from .authentication_api import AuthenticationApi
+from .ws import WebsocketHandler
+
 ## We overwrite previous import of AuthenticationApi, and thats ok!
 
 class ApiClient(_ApiClient):
@@ -37,6 +39,9 @@ class ApiClient(_ApiClient):
         
         for key, value in apis.items():
             setattr(self, key, value(self))
+            
+        self._ws = WebsocketHandler(self)
+        self.event = self._ws.event
     
     def save_cookies(self, filename: str):
         """Save current session cookies
@@ -98,3 +103,16 @@ class ApiClient(_ApiClient):
         """
         
         self.configuration = Configuration(username=username, password=password)
+        
+    async def run_websocket_loop(self):
+        await self._ws.run_websocket_loop()
+        
+    ## Event hooks
+        
+    async def on_connect(self):
+        """Called when connected to vrchat websocket pipeline"""
+        pass
+    
+    async def on_disconnect(self):
+        """Called whem disconnected from vrchat websocket pipeline"""
+        pass
